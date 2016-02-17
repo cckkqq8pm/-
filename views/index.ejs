@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html ng-app="chatRoomIndex" ng-controller="parentController">
+<head>
+    <title>Chat Room</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/chess_room_style.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/javascripts/angular/angular-1.2.20/angular.js"></script>
+    <script type="text/javascript" src="/javascripts/angular/angular-1.2.20/angular-route.js"></script>
+    <script type="text/javascript" src="/javascripts/angular/angular-1.2.20/angular-cookies.js"></script>
+    <script type="text/javascript" src="/javascripts/proto/protobuf.js"></script>
+    <script type="text/javascript" src="/javascripts/proto/pbj.js"></script>
+    <script type="text/javascript" src="/javascripts/proto/proto_message_server.js"></script>
+    <script type="text/javascript" src="/javascripts/angular/util.js"></script>
+    <script type="text/javascript" src="/javascripts/angular/main.js"></script>
+</head>
+<body>
+    <div class="home_top">
+        <div style="float:right;width:20%">
+            <div class="home_top_leave_room" ng-show="userinfo.inRoom">
+                <button type="button" class="btn btn-default" ng-click="backToMainHall()"><span class="glyphicon glyphicon-user">&nbsp;回到大厅</span></button>
+            </div>
+            <div class="home_top_logout">
+                <button type="button" class="btn btn-default" ng-click="logOut()"><span class="glyphicon glyphicon-log-out">&nbsp;登出</span></button>
+            </div>
+        </div>
+    </div>
+    <div class="main_frame_work" ng-controller="chatRoomMainController" style="display: block">
+        <div class="home_room_container">
+            <div class="main_room_list">
+                <div class="main_room_top">
+
+                </div>
+                <div class="canvas_area">
+                    <canvas id="room_canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="home_chat_container">
+            <div class="form">
+                <div class="chat_top_content">
+                    <span class="chat_top_user_name"><%=username%></span>
+                </div>
+                <div class="chat_bubble_content" style="height:450px">
+                    <div class="chat_content_nano_bar" name="text" style="height:450px"></div>
+                </div>
+                <div class="sendWord">
+                    <input type="text" name="sendWord" id="yourWord" placeholder="Your word" style="width:82%" />
+                    <button ng-click="clickSendMessage()" class="btn btn-success" style="margin-left: 8px">Send</button>
+                </div>
+            </div>
+            <div class='footer' style="display: none">
+                <span id="hidden_username"><%=username%></span>
+                <span id="hidden_sessionid"><%=sessionid%></span>
+            </div>
+        </div>
+    </div>
+    <div id="chatSingleRoom" ng-controller="chatRoomSingleController" style="display: none">
+        <div id="single_room_container"style="overflow: hidden;width:55%;float:left">
+            <div class="chess_view">
+                <div class="chess_desk"><canvas id="chess_desk_canvas"></canvas></div>
+                <div class="chess_info">
+                    <div class="chess_avatar">
+                        <img error-load-image style="margin-left:15px;width:60%;">
+                    </div>
+                    <div class="chess_btn_group" style="margin:20px auto;width:40%;">
+                        <span class="btn chess_info_btn chess-btn-ready" ng-click="preparedReady()"
+                              ng-class="{ false:'btn-info',true:'btn-default' }[userinfo.isPlaying]" ng-disabled="userinfo.isPlaying">准备</span>
+                        <!--<span class="btn chess_info_btn chess-btn-regret"-->
+                              <!--ng-class="{ true:'btn-info',false:'btn-default' }[userinfo.isPlaying]" ng-disabled="userinfo.isPlaying">悔棋</span>-->
+                        <span class="btn chess_info_btn chess-info-surrender"
+                              ng-class="{ true:'btn-info',false:'btn-default' }[userinfo.isPlaying]" ng-disabled="!userinfo.isPlaying">认输</span>
+                    </div>
+                    <div class="chess_time" style="">
+                        <span>游戏时间</span>
+                        <span></span>
+                    </div>
+                    <div class="wait_opponent">
+                        <span ng-show="$parent.userinfo.myturn==0">等待对手</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="single_chat_container" style="overflow: hidden;width:40%;float:right;height:545px">
+            <div class="user_infos">
+                <div class="player_1" style="float:left;">
+                    <div class="user_infos_container" style="height:100%;display: none">
+                        <div style="width:60%;height:100%;float:left">
+                            <div class="chess_avatar_player" style="height:65%">
+                                <img error-load-image style="width:65%;height:100%;margin-left: 20%;">
+                            </div>
+                            <div style="height:30%">
+                                <span class="chess_user_name"></span>
+                            </div>
+                        </div>
+                        <div style="width:40%;height: 100%;float:right">
+                            <div class="chess_king" style="height:70%;width:100%">
+                                <img error-load-image style="height:65%;width:70%;margin:20px 6px" src="/images/r_j.png">
+                            </div>
+                            <div class="chess_win" style="height:25%">
+                                <span class="chess_win_percentage">胜率</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player_2" style="float:right">
+                    <div class="user_infos_container" style="height:100%;display: none">
+                        <div style="width:60%;height:100%;float:left">
+                            <div class="chess_avatar_player" style="height:65%">
+                                <img error-load-image style="width:65%;height:100%;margin-left: 20%;">
+                            </div>
+                            <div style="height:30%">
+                                <span class="chess_user_name"></span>
+                            </div>
+                        </div>
+                        <div style="width:40%;height: 100%;float:right">
+                            <div class="chess_king" style="height:70%;width:100%">
+                                <img error-load-image style="height:65%;width:70%;margin:20px 6px" src="/images/b_j.png">
+                            </div>
+                            <div class="chess_win" style="height:25%">
+                                <span class="chess_win_percentage">胜率</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="player_chat">
+                <div class="player_chat_top"></div>
+                <div class="player_chat_content"></div>
+            </div>
+        </div>
+    </div>
+    <div class="chat_line chat_bubble_template">
+        <div class="chat_user_info"></div>
+        <div class="chat_bubble">
+            <div class="chat_content" style="padding: 15px 20px;"></div>
+        </div>
+    </div>
+</body>
+</html>

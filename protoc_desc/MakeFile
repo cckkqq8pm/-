@@ -1,0 +1,2 @@
+protoc --descriptor_set_out=chat.desc --include_imports chat.proto
+./pbj chat.proto /home/ckq/nodeProjects/chat_room/public/javascripts/proto/proto_message_server.js

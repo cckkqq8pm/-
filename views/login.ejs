@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="chatLogin">
+<head>
+    <title></title>
+    <link rel="stylesheet" href='/bootstrap3/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/angular/angular-1.2.20/angular.js"></script>
+    <script type="text/javascript" src="/javascripts/angular/loginTemplate.js"></script>
+    <style type="text/css">
+        #main_login{width:655px;margin:auto;background-color:#fff;border:1px solid #ddd;height:300px;border-radius: 5px;}
+        #login_title{margin:auto;margin-top: 7%;text-align: center;}
+        #right{height: 200px;margin-left: 40px;width: 300px}
+    </style>
+</head>
+<body>
+<div id="login_title">
+    <label style="font-size: large">ChatRoom</label>
+</div>
+<table id="main_login" ng-controller="userLoginController">
+    <tr>
+        <td style="text-align: right;width: 250px;margin: 10px;overflow: hidden">
+            <div style="overflow: hidden;margin: 10px"><img src="/images/logo-login.jpg" style="float: left;"></div>
+            <p style="float: left;margin-left: 70px;margin-top: 20px">node chat room</p></td>
+        <td style="text-align: center">
+            <form id="right" name="userLoginForm" novalidate>
+                <div class="form-group" ng-class=" { 'has-error':userLoginForm.username.$invalid && userLoginForm.username.$dirty } ">
+                    <label>用户名</label>
+                    <span><input id="login_username" class="form-control" type="text" name="username" ng-model="username" validate-input  required></span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': userLoginForm.password.$invalid && userLoginForm.password.$dirty }">
+                    <label>密码</label>
+                    <span><input id="login_password" class="form-control" type="password" name="password" ng-model="password" validate-input required></span>
+                </div>
+                <div>
+                    <span style="margin-left: 10px" class="btn regiest_btn" ng-disabled="userLoginForm.$invalid" ng-class="{ 'btn-info':userLoginForm.$valid }" ng-click="userLogin()">登陆</span>
+                    <span style="margin-left: 10px" class="btn btn-info regiest_btn" ng-click="clearInput()">取消</span>
+                </div>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

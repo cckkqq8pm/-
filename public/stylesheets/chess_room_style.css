@@ -1,0 +1,87 @@
+.user_infos{
+    height:25%;
+    margin-top: 45px;
+}
+
+.player_1 , .player_2{
+    height:90%;
+    width:45%;
+    box-shadow: 1px 1px 10px #ddd;
+    border: 1px solid #aabbaa;
+    border-radius: 5px;
+    background: rgba(200,255,200,0.5);
+}
+
+.chess_user_name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chess_win_percentage, .chess_user_name{
+    font-family: 'Helvetica Neue, Helvetica, Arial, sans-serif';
+    font-size: 12px;
+    display: block;
+    padding: 10px 5px;
+    text-align: center;
+}
+
+.player_chat_top{
+    height:45px;
+    background-color: #5B6774;
+    border-radius: 2px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#6b7888),
+    to(#545e6a), color-stop(0.1, #6a7786), color-stop(0.5, #5e6977),
+    color-stop(0.9, #56616d), color-stop(1, #545e6a))
+}
+
+.player_chat_content{
+    height:250px;
+    overflow-x: hidden;
+    overflow-y:auto;
+    background: #efe;
+}
+
+
+.player_chat{
+    width:100%;
+    height:64%;
+    margin-top: 13px;
+    box-shadow: 1px 1px 10px #ddd;
+    border: 1px solid #eee;
+}
+
+.chess_view{
+    float:left;
+    height:500px;
+    width:100%;
+    box-shadow: 1px 1px 10px #ddd;
+    border: 1px solid #eee;
+    margin-top: 45px;
+    background: rgba(200,255,200,0.5);
+}
+
+.chess_desk{
+    float: left;
+    width:70%;
+    height:100%;
+    background: url('/images/chess.png');
+    background-size: 90%;
+    /*background-attachment:fixed;*/
+    background-position:center;
+    background-repeat: no-repeat;
+}
+
+.chess_info{
+    float: right;
+    width:30%;
+    height:100%;
+}
+
+.chess_avatar{
+    margin: 10px 30px;
+}
+
+.chess_info_btn{
+    margin-bottom: 30px;
+}

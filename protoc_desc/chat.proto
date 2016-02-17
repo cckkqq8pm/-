@@ -1,0 +1,149 @@
+package  Chat;
+
+enum ChatMessageType{
+
+    LOGINREQUEST = 1;
+
+    CHATREQUEST = 2;
+
+    CHATRESPONSE = 3;
+
+    SINGLEROOMENTER = 4;
+
+    SINGLEROOMRESPONSE = 5;
+
+    PREPAREDREADY = 6;
+
+    READRESPONSE = 7;
+
+    BACKTOMAINHALL = 8;
+
+    BACKHALLRESPONSE = 9;
+
+    SENDPLAYMAP = 10;
+
+    PLAYWIN = 11;
+
+    LOGOUT = 12;
+}
+//颜色
+enum Color{
+    RED = 1;
+    BLACK = 2;
+    NULL = 3;
+}
+
+//所有消息的包装
+message ChatMessage{
+   required ChatMessageType ChatMessageType = 1;
+
+   required bytes messageBuff = 2;
+}
+
+// 登陆消息 初始化rabbitmq
+message LoginRequest{
+   required string username = 1;
+   required string sessionid = 2;
+}
+
+//聊天消息
+message ChatContent{
+   required string username = 1;
+
+   required string sessionid = 2;
+
+   required string chatContent = 3;
+}
+
+//进入对战游戏房间
+message SingleRoomEnter{
+    required string username = 1;
+
+    required string sessionid = 2;
+
+    required int32 deskid = 3;
+}
+
+//回写通知,是否成功/失败
+message StatusResponse{
+    required string username = 1;
+
+    required string sessionid = 2;
+
+    required string status = 3;
+
+    required Color color = 4;
+
+    required string message_content = 5;
+}
+
+//准备游戏消息 0是放弃准备，1是准备好
+message PreparedReady{
+    required string username = 1;
+
+    required string sessionid = 2;
+
+    required int32 ready = 3;
+}
+
+//准备消息的回写通知
+message ReadyResponse{
+    required string username =1;
+
+    required string sessionid = 2;
+
+    enum ReadyType{
+        UNREADY = 0;
+        SINGLEREADY = 1;
+        BOTHREADY = 2;
+    }
+    //注意声明枚举类型后需要使用类型定义字段
+    required ReadyType readyType =3;
+}
+
+//回到大厅
+message BackToMainHall{
+    required string username =1;
+
+    required string sessionid = 2;
+
+    required string deskid = 3;
+
+    required Color color = 4;
+}
+
+//回到大厅response 发送给对手
+message BackHallResponse{
+    required string username =1;
+
+    required string sessionid = 2;
+
+    required Color color =3;
+}
+
+//告知对方走法
+message SendPlayMap{
+    required string username =1;
+
+    required string sessionid = 2;
+
+    repeated string playMap = 3;
+
+    optional string delete_key = 4;
+}
+
+//下棋获胜
+message PlayWin{
+    required string username = 1;
+
+    required string sessionid = 2;
+}
+
+//登出
+message LogOut{
+    required string username =1;
+
+    required string sessionid = 2;
+
+}
+
