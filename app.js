@@ -86,8 +86,9 @@ app.post('/check_login/',function(req,res){
                 throw err;
             }
             var rsdic={'ret':'ok','data':rows};
-            rsdic['sessionid']=sessionid;
-            rsdic['username']=username;
+            rsdic['sessionid'] = sessionid;
+            rsdic['username'] = username;
+            rsdic['avatar'] = rows.avatar;
             req.session.username = username;
             res.send(rsdic);
             //在使用连接后释放数据库连接

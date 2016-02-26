@@ -41,6 +41,8 @@ chatRoomIndex.controller("chatRoomMainController",["$scope","$routeParams","$com
         $scope.drawChessRooms();
         //获得用户个人基本信息
         $scope.getUserBasicInfo();
+        // 初始化聊天区域
+        $scope.initChatArea();
     });
     //点击发送消息
     $scope.clickSendMessage=function(){
@@ -53,15 +55,10 @@ chatRoomIndex.controller("chatRoomMainController",["$scope","$routeParams","$com
         var sessionid=$scope.$parent.userinfo.sessionid;
         messageServer.sendChatMessage(username,sessionid,message);
     };
+    // 初始化聊天区域
+    $scope.initChatArea = function(){
 
-    // 初始化rabbitmq
-    $scope.setInitRabbitmq = function(username, sessionid){
-        if(username.length==0 || sessionid.length==0){
-            console.log('no user');
-            return;
-        }
-        messageServer.initRabbitmq(username, sessionid);
-    };
+    }
 
     //用户登录后，设置登录消息服务器
     $scope.setWebClientLogin=function(username,sessionid){
@@ -118,6 +115,9 @@ chatRoomIndex.controller("chatRoomMainController",["$scope","$routeParams","$com
         angular.element($html[0].querySelector(".chat_user_info")).text(username);
         var $chat_content=angular.element(document.querySelector(".chat_content_nano_bar"));
         $chat_content.append($compile($html)($scope));
+        // 消息到来时，让滚动条滚动到最下部
+        var scrollContent = document.querySelector(".chat_bubble_content");
+        scrollContent.scrollTop = scrollContent.scrollHeight - scrollContent.offsetHeight;
     };
 
     //绘制下棋房间 并注册事件
@@ -456,12 +456,51 @@ chatRoomIndex.controller('parentController',['$scope','$http','messageServer',fu
 }]);
 
 //定义图片加载错误时的指令
-chatRoomIndex.directive('errorLoadImage',function(){
+chatRoomIndex.directive('errorLoadImage', function(){
     return {
-        'link':function(scope,element,attrs){
-            element[0].onerror=function(){
-                element[0].src='/images/default_avatar.png';
-            }
+        'restrict': 'A',
+        'link':function(scope, element, attrs){
+            element.bind("error", function(){
+                element.attr("src", "/images/default_avatar.png");
+            });
         }
+    }
+});
+
+// 按enter键时的事件 指令
+chatRoomIndex.directive('ngEnter', function(){
+    return function(scope, element, attrs){
+        element.bind('keydown', function(event){
+            if(event.which === 13){
+                scope.$apply(function(){
+                    scope.$eval(attrs.ngEnter, {'event':event});
+                });
+                event.preventDefault();
+            }
+        });
+    }
+});
+
+// 子元素不随父元素滚动的 指令
+chatRoomIndex.directive('scrollUnique', function(){
+    return function(scope, element, attrs){
+        var eventType = "mousewheel";
+        // 火狐是DOMMouseScroll事件
+        if(document.mozHidden !== undefined){
+            eventType = "DOMMouseScroll";
+        }
+        element.bind(eventType, function(event){
+            var scrollTop = element[0].scrollTop;
+            var scrollHeight = element[0].scrollHeight;
+            var height = element[0].clientHeight;
+
+            // 向下滚 值为负， 向上滚， 值为正
+            var delta = (event.wheelDelta) ? event.wheelDelta : -(event.detail || 0);
+            // 滚动到最上 或 滚动到最底下
+            if((delta > 0 && scrollTop <= delta) || (delta < 0 && scrollHeight - height - scrollTop <= -1*delta)){
+                element[0].scrollTop = delta > 0 ? 0:scrollHeight;
+                event.preventDefault();
+            }
+        });
     }
 });

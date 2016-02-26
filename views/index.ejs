@@ -32,7 +32,7 @@
                 <div class="main_room_top">
 
                 </div>
-                <div class="canvas_area">
+                <div class="canvas_area" scroll-unique>
                     <canvas id="room_canvas"></canvas>
                 </div>
             </div>
@@ -40,13 +40,14 @@
         <div class="home_chat_container">
             <div class="form">
                 <div class="chat_top_content">
+                    <span class="chat_top_user_avatar"><img errorLoadImage src="asdae"></span>
                     <span class="chat_top_user_name"><%=username%></span>
                 </div>
-                <div class="chat_bubble_content" style="height:450px">
-                    <div class="chat_content_nano_bar" name="text" style="height:450px"></div>
+                <div class="chat_bubble_content" style="height:450px" scroll-unique>
+                    <div class="chat_content_nano_bar" name="text" style="height:100%"></div>
                 </div>
                 <div class="sendWord">
-                    <input type="text" name="sendWord" id="yourWord" placeholder="Your word" style="width:82%" />
+                    <input type="text" name="sendWord" id="yourWord" placeholder="Your word" style="width:82%" ng-enter="clickSendMessage()" />
                     <button ng-click="clickSendMessage()" class="btn btn-success" style="margin-left: 8px">Send</button>
                 </div>
             </div>

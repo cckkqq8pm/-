@@ -112,6 +112,9 @@ input:focus, textarea:focus {
     color-stop(0.9, #56616d), color-stop(1, #545e6a))
 }
 
+.chat_top_user_avatar{
+
+}
 
 .chat_top_user_name{
     color: #eeeeee;

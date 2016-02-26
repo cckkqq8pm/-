@@ -52,7 +52,7 @@ chatRoomLogin.controller("userLoginController",function($scope,$http){
     $scope.userLogin=function(){
         var username=angular.element( document.querySelector("#login_username")).val();
         var password=angular.element( document.querySelector("#login_password")).val();
-        $http.post('/check_login/',{'username':username,'pwd':password}).success(function(data,status,headers){
+        $http.post('/check_login/', {'username':username,'pwd':password}).success(function(data,status,headers){
             if(data['ret']!='ok'){
                 alert('error');
                 return
