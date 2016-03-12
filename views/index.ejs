@@ -17,13 +17,14 @@
 </head>
 <body>
     <div class="home_top">
-        <div style="float:right;width:20%">
-            <div class="home_top_leave_room" ng-show="userinfo.inRoom">
-                <button type="button" class="btn btn-default" ng-click="backToMainHall()"><span class="glyphicon glyphicon-user">&nbsp;回到大厅</span></button>
-            </div>
-            <div class="home_top_logout">
-                <button type="button" class="btn btn-default" ng-click="logOut()"><span class="glyphicon glyphicon-log-out">&nbsp;登出</span></button>
-            </div>
+        <div style="float:right;width:40%;">
+            <ul class="home_top_menu">
+                <li ng-click="logOut()"><span class="top_bounce">&nbsp;登出系统&nbsp;</span></li>
+                <li><span class="top_no_bounce">|</span></li>
+                <li><span class="top_bounce">&nbsp;关于我&nbsp;</span></li>
+                <li><span ng-show="userinfo.inRoom" class="top_no_bounce">|</span></li>
+                <li ng-show="userinfo.inRoom" ng-click="backToMainHall()"><span class="top_bounce">&nbsp;回到大厅 </span></li>
+            </ul>
         </div>
     </div>
     <div class="main_frame_work" ng-controller="chatRoomMainController" style="display: block">

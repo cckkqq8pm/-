@@ -71,7 +71,57 @@ input:focus, textarea:focus {
 .home_top{
     height:70px;
     width:100%;
-    background: url("/images/header.png");
+    background-color: #ebebeb;
+    opacity: 0.8;
+}
+
+.home_top_menu{
+    margin-top: 30px;
+    color: #555555;
+}
+
+.home_top_menu  li{
+    display: inline-block;
+    float:right;
+}
+
+.top_bounce{
+    padding:6px 20px;
+    cursor: pointer;
+    display: block;
+    color: #398eca;
+    line-height: 1.8em;
+    text-transform: capitalize;
+    font-size: 1.1em;
+    font-weight: 400;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.top_bounce:before{
+    content:"";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #37D2C3;
+}
+
+.top_no_bounce{
+    padding:6px 0;
+    display: block;
+    color: #398eca;
+    line-height: 1.8em;
+    font-size: 1.1em;
+    font-weight: 400;
+}
+
+.top_bounce:hover, .top_bounce:hover:focus, .top_bounce:hover:active{
+    color:white;
 }
 
 .home_top_leave_room{
@@ -95,7 +145,7 @@ input:focus, textarea:focus {
 /*聊天头部*/
 .chat_top_content{
     height:45px;
-    margin-top: 65px;
+    margin-top: 45px;
     background-color: #5B6774;
     border-radius: 2px;
     background: -webkit-gradient(linear, left top, left bottom, from(#6b7888),
@@ -142,7 +192,7 @@ input:focus, textarea:focus {
     width:55%;
     box-shadow: 1px 1px 10px #ddd;
     border: 1px solid #eee;
-    margin-top: 65px;
+    margin-top: 45px;
 }
 
 .canvas_area{
